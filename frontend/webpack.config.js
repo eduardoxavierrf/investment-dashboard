@@ -26,6 +26,19 @@ module.exports = {
         test: /\.css$/,
         use: ['style-loader', 'css-loader', 'postcss-loader'],
       },
+      {
+        test: /\.svg$/,
+        use: [
+          '@svgr/webpack', // SVG as React component
+          {
+            loader: 'file-loader', // Static SVG as file
+            options: {
+              name: '[name].[hash].[ext]',
+              outputPath: 'images/',
+            },
+          },
+        ],
+      },
     ],
   },
   plugins: [
@@ -34,7 +47,7 @@ module.exports = {
     }),
   ],
   devServer: {
-    static: './dist',
-    port: 3000,
+    historyApiFallback: true,
+    port: 3000
   },
 };

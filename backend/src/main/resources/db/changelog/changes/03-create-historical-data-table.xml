@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="3" author="xavier">
+        <createTable tableName="historical_data">
+            <column name="data_id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="stock_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date" type="DATE"/>
+            <column name="open_price" type="DECIMAL(10, 2)"/>
+            <column name="close_price" type="DECIMAL(10, 2)"/>
+            <column name="high_price" type="DECIMAL(10, 2)"/>
+            <column name="low_price" type="DECIMAL(10, 2)"/>
+            <column name="volume" type="BIGINT"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="historical_data"
+                                 baseColumnNames="stock_id"
+                                 constraintName="fk_historical_stock"
+                                 referencedTableName="stocks"
+                                 referencedColumnNames="stock_id"/>
+    </changeSet>
+
+</databaseChangeLog>
