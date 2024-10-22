@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import { Stock } from '../types/stock';
 
@@ -10,6 +10,7 @@ const Navigation: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchStockSuggestions = async () => {
@@ -57,8 +58,8 @@ const Navigation: React.FC = () => {
   const handleStockSelect = (stock: any) => {
     setSearchTerm(stock.symbol);
     setShowSuggestions(false);
-    // Add navigation logic here if needed
-    // Example: navigate(`/stocks/${stock.symbol}`);
+    const params = new URLSearchParams({symbol: stock.symbol});
+    navigate(`/?${params.toString()}`)
   };
 
   return (
