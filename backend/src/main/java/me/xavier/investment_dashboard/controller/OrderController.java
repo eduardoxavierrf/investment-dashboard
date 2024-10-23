@@ -1,5 +1,8 @@
 package me.xavier.investment_dashboard.controller;
 
+import me.xavier.investment_dashboard.model.Order;
+import me.xavier.investment_dashboard.service.OrderService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,30 +11,23 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import me.xavier.investment_dashboard.model.User;
-import me.xavier.investment_dashboard.service.UserService;
-
 import java.util.List;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/api/users")
-public class UserController {
-    @Autowired
-    private UserService userService;
+@RequestMapping("/api/orders")
+public class OrderController {
 
-    @GetMapping
-    public List<User> getAllUsers() {
-        return userService.findAll();
+    @Autowired
+    private OrderService orderService;
+
+    @GetMapping("/me")
+    public List<Order> getOrdersForAuthenticatedUser() {
+        return orderService.getOrdersForAuthenticatedUser();
     }
 
     @PostMapping
-    public User creatUser(@RequestBody User user) {
-        return userService.save(user);
-    }
-
-    @GetMapping("/me")
-    public User getMe() {
-        return userService.getAuthenticatedUser();
+    public Order creatUser(@RequestBody OrderRequest orderRequest) {
+        return orderService.save(orderRequest.getUserId(), orderRequest.getSymbol(), orderRequest.getOrderType(), orderRequest.getQuantity());
     }
 }

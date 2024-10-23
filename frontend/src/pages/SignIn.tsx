@@ -2,35 +2,31 @@ import React, { useState } from 'react';
 import api from '../services/api';
 import { useNavigate } from 'react-router-dom';
 
-const SignUp: React.FC = () => {
+import { useAuth } from '../context/AuthContext';
+
+const SignIn: React.FC = () => {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<string>('');
   const [success, setSuccess] = useState<boolean>(false);
   const navigate = useNavigate();
+  const { login, user } = useAuth()
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    api.post('/users', {
-      username,
-      password
-    })
-    .then(response => {
-      console.log(response.data)
-      setSuccess(true)
-      navigate('/signin')
-    })
-    .catch(error => {
-      console.error('Error: ', error)
-    })
+    await login(username, password)
+    if (user) {
+      console.log(user)
+      navigate('/')
+    }
   };
 
   return (
     <div className='w-full mx-auto flex justify-center'>
       <div className='w-96'>
         <div className='mt-[10vh] mb-5 text-xl font-medium'>
-          <span>Sign Up</span>
+          <span>Sign In</span>
         </div>
         {error && <div className="text-red-500">{error}</div>}
         {success && <div className="text-green-500">User created successfully!</div>}
@@ -62,7 +58,7 @@ const SignUp: React.FC = () => {
             type='submit' 
             className='mt-8 rounded-sm h-10 px-4 w-full relative bg-green-500 text-white cursor-pointer text-sm items-center justify-center inline-flex font-semibold'
           >
-            Cadastre-se
+            Logar
           </button>
         </form>
       </div>
@@ -70,4 +66,4 @@ const SignUp: React.FC = () => {
   );
 };
 
-export default SignUp;
+export default SignIn;

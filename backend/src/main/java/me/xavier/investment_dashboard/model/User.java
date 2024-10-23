@@ -6,17 +6,22 @@ import lombok.AllArgsConstructor;
 
 import jakarta.persistence.*;
 
+import java.util.Collection;
 import java.util.Date;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements UserDetails{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long user_id;
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
 
     private String username;
     private String password;
@@ -26,4 +31,9 @@ public class User {
     private Date createdAt = new Date();
     
     private String role;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
 }

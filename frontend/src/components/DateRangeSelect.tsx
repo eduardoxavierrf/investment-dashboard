@@ -64,7 +64,7 @@ const DateRangeSelect = () => {
           onClick={handleFilter}
           className="inline-flex items-center justify-center rounded-lg font-medium text-sm bg-green-500 text-white px-3 py-3"
         >
-          Filter
+          Filtrar
         </button>
       </div>
       <p className="mt-4 text-gray-700">

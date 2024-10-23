@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import { Stock } from '../types/stock';
+import { useAuth } from '../context/AuthContext';
 
 const Navigation: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
@@ -11,6 +12,7 @@ const Navigation: React.FC = () => {
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
+  const { user, logout } = useAuth()
 
   useEffect(() => {
     const fetchStockSuggestions = async () => {
@@ -120,7 +122,13 @@ const Navigation: React.FC = () => {
           )}
         </div>
         <div>
-          <Link className='inline-flex items-center justify-center rounded-lg font-medium text-sm bg-green-500 text-white px-3 py-3' to='/signup'>Cadastre-se</Link>
+          {
+            user ?
+            <button className='inline-flex items-center justify-center rounded-lg font-medium text-sm px-3 py-3 mr-2' onClick={() => logout()}>{user.username}</button>:
+            <Link className='inline-flex items-center justify-center rounded-lg font-medium text-sm bg-green-500 text-white px-3 py-3 mr-2' to='/signup'>Cadastre-se</Link>
+          }
+          
+          <Link className='inline-flex items-center justify-center rounded-lg font-medium text-sm bg-green-500 text-white px-3 py-3' to='/order'>Ordem</Link>
         </div>
       </div>
     </div>
